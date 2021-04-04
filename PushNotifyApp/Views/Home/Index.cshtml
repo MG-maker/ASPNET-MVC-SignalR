@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PushNotifyApp.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div><span id="notification" style="color:red;font-size:15px;"></span></div>
+
+<h2>Список книг</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Author)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Year)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+</tr>
+}
+</table>
+@section scripts{
+<script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+<!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    $(function () {
+
+        var notificationhub = $.connection.notificationHub;
+
+        notificationhub.client.displayMessage = function (message) {
+
+            $('#notification').html(message);
+        };
+
+        $.connection.hub.start();
+
+    });
+</script>
+}
